@@ -17,16 +17,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('notification-sender' , function (){
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
 
-    $keyword = request("message");
-    event(new \App\Events\BroadcastingMessageToUser($keyword));
-
-});
+require __DIR__.'/auth.php';
 
 
-Route::get('notification' , function (){
-
-    return view('notification');
-
+Route::get('order' , function (){
+    event(new \App\Events\OrderShipmentEvent(1,"Hey! your order shipped"));
+    return "event fire";
 });
